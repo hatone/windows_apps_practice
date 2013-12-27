@@ -1,0 +1,20 @@
+﻿.answer section[role=main] {
+    margin-left: 120px;
+    margin-right: 120px;
+}
+
+#answerCardImage {
+    float: left;
+    width: 40%;
+    margin-top: 100px;
+}
+
+#message {
+    float: left;
+    width: 40%;
+    margin-top: 100px;
+}
+#answerCardMessage {
+}
+#answerCardKeywords {
+}      
