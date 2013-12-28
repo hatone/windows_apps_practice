@@ -5,16 +5,30 @@
 
 #answerCardImage {
     float: left;
-    width: 40%;
-    margin-top: 100px;
+    width: 60%;
+    margin-top: 150px;
+    margin-left: 200px;
 }
 
 #message {
-    float: left;
-    width: 40%;
-    margin-top: 100px;
+    margin-top: 300px;
+	margin-left: 800px;
 }
+
+#answerCardMeaning {
+	width: 700px; 
+	height: 150px;
+	font-size: larger;
+}
+	
 #answerCardMessage {
+	width: 700px;
+	height: 100px;
+	font-size: larger;
 }
+
 #answerCardKeywords {
+	width: 700px;
+	height: 100px;
+	font-size: larger;
 }      

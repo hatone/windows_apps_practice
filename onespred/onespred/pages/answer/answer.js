@@ -4,12 +4,18 @@
 (function () {
     "use strict";
 
-    WinJS.UI.Pages.define("/pages/answer/answer.html", {
+    var cardObject = {
+        meaning: null,
+        message: null,
+        keywords: null
+    }
+
+    var answerPage = WinJS.UI.Pages.define("/pages/answer/answer.html", {
         // This function is called whenever a user navigates to this page. It
         // populates the page elements with the app's data.
         ready: function (element, options) {
             // TODO: Initialize the page here.
-            showTheCard();
+            answerPage.prototype.showTheCard();
         },
 
         unload: function () {
@@ -20,25 +26,28 @@
             /// <param name="element" domElement="true" />
 
             // TODO: Respond to changes in layout.
+        },
+        
+        showTheCard: function () {
+            var card = Data.cards[getRandomNumber(Data.cards.length)];
+
+            document.getElementById("answerCardName").innerText = card.name;
+            cardObject.meaning = card.meaning;
+
+            if (getRandomNumber(2) == 0) {
+                document.getElementById("answerCardImage").innerHTML = "<img src=\"" + card.imagePath + "\">";
+                cardObject.message = card.meaningUpright;
+                cardObject.keywords = card.keywordUpright;
+            } else {
+                document.getElementById("answerCardImage").innerHTML = "<img src=\"" + card.imagePath + "\" style=\"transform: rotate(90deg);-ms-transform: rotate(180deg);\">";
+                cardObject.message = card.meaningReverse;
+                cardObject.keywords = card.keywordReverse;
+            }
+
+            var cardInfo = document.getElementById("message");
+            WinJS.Binding.processAll(cardInfo, cardObject);
         }
     });
-
-    function showTheCard() {
-        var card = Data.cards[getRandomNumber(Data.cards.length)];
-        document.getElementById("answerCardName").innerText = card.name;
-        document.getElementById("answerCardMeaning").innerText = card.meaning;
-        
-        if (getRandomNumber(2) == 0) {
-            document.getElementById("answerCardImage").innerHTML = "<img src=\"" + card.imagePath + "\">";
-            document.getElementById("answerCardMessage").innerText = card.meaningUpright;
-            document.getElementById("answerCardKeywords").innerText = card.keywordUpright;
-        } else {
-            document.getElementById("answerCardImage").innerHTML = "<img src=\"" + card.imagePath + "\" style=\"transform: rotate(90deg);-ms-transform: rotate(180deg);\">";
-            document.getElementById("answerCardMessage").innerText = card.meaningReverse;
-            document.getElementById("answerCardKeywords").innerText = card.keywordReverse;
-        }
-
-    }
 
     function getRandomNumber(length) {
         var randnum = Math.floor(Math.random() * length);

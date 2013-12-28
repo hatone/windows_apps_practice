@@ -18,16 +18,16 @@
             <button data-win-control="WinJS.UI.BackButton"></button>
             <h1 class="titlearea win-type-ellipsis">
                 <span class="pagetitle">
-                    <div id="answerCardName"></div>
+                    <div id="answerCardName">Card Name</div>
                 </span>
             </h1>
         </header>
         <section aria-label="Main content" role="main">
-         <div id="answerCardImage"></div>  
+         <div id="answerCardImage">CardImage</div>  
             <div id="message">
-                <h3><div id="answerCardMeaning"></div></h3>
-                <h3><div id="answerCardMessage"></div></h3>
-                <div id="answerCardKeywords"></div>
+                <div id="answerCardMeaning" data-win-bind="innerText: meaning">meaning</div>
+                <div id="answerCardMessage" data-win-bind="innerText: message">message</div>
+                <div id="answerCardKeywords" data-win-bind="innerText: keywords">keywords</div>
             </div>     
         </section>
     </div>
