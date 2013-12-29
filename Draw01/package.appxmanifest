@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Package xmlns="http://schemas.microsoft.com/appx/2010/manifest" xmlns:m2="http://schemas.microsoft.com/appx/2013/manifest" xmlns:build="http://schemas.microsoft.com/developer/appx/2012/build" IgnorableNamespaces="build">
+
+  <Identity Name="fea3f7fb-4fcc-45c0-ad3e-05583faf439a" Version="1.0.0.0" Publisher="CN=owner" />
+
+  <Properties>
+    <DisplayName>Draw01</DisplayName>
+    <PublisherDisplayName>owner</PublisherDisplayName>
+    <Logo>images\storelogo.png</Logo>
+  </Properties>
+
+  <Prerequisites>
+    <OSMinVersion>6.3.0</OSMinVersion>
+    <OSMaxVersionTested>6.3.0</OSMaxVersionTested>
+  </Prerequisites>
+
+  <Resources>
+    <Resource Language="x-generate" />
+  </Resources>
+
+  <Applications>
+    <Application Id="App" StartPage="default.html">
+
+      <m2:VisualElements DisplayName="Draw01" Description="Draw01" ForegroundText="light" BackgroundColor="#464646" Square150x150Logo="images\Logo.png" Square30x30Logo="images\SmallLogo.png">
+
+        <m2:SplashScreen Image="images\splashscreen.png" />
+
+      </m2:VisualElements>
+    </Application>
+  </Applications>
+
+  <Capabilities>
+    <Capability Name="internetClient" />
+  </Capabilities>
+
+  <build:Metadata>
+    <build:Item Name="Blend" Version="12.0.41002.1" />
+  </build:Metadata>
+</Package>
