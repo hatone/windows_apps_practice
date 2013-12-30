@@ -1,6 +1,6 @@
 ﻿(function () {
     "use strict";
-    var canvas = null; 
+    var canvas = null;
     var surface = new Surface();
 
     var X = 0;
@@ -27,10 +27,13 @@
     };
 
 
-    WinJS.UI.Pages.define("/pages/home/home.html", {
+    var home = WinJS.UI.Pages.define("/pages/home/home.html", {
         // This function is called whenever a user navigates to this page. It
         // populates the page elements with the app's data.
         ready: function (element, options) {
+            var rotateButton = document.getElementById("rotate");
+            rotateButton.addEventListener("click", home.prototype.processKeyDown, false);
+
             canvas = document.getElementById("mycanvas");
             canvas.width = constants.canvasWidth;
             canvas.height = constants.canvasHeight;
@@ -39,25 +42,22 @@
             surface.color();
 
             surface.draw();
+        },
+
+        processKeyDown: function (e) {
+            surface.xRotate(-1);
         }
+
     });
 
-    function point(x, y, z)
-        /*
-          Given a (x, y, z) surface point, returns the 3 x 1 vector form of the point.
-        */ {
-        return [x, y, z]; // Return a 3 x 1 vector representing a traditional (x, y, z) surface point. This vector form eases matrix multiplication.
-    }    function Surface()
-        /*
-          A surface is a list of (x, y, z) points, in 3 x 1 vector format. This is a constructor function.
-        */ {
-        this.points = []; // An array of surface points in vector format. That is, each element of this array is a 3 x 1 array, as in [ [x1, y1, z1], [x2, y2, z2], [x3, y3, z3], ... ]
+    function point(x, y, z) {
+        return [x, y, z];
+    }    function Surface() {
+        this.points = [];
     }
-
 
     Surface.prototype.generate = function () {
         var i = 0;
-
         for (var x = constants.xMin; x <= constants.xMax; x += constants.xDelta) {
             for (var y = constants.yMin; y <= constants.yMax; y += constants.yDelta) {
                 this.points[i] = point(x, y, this.equation(x, y));
@@ -94,13 +94,51 @@
         }
     }
 
-    Surface.prototype.equation = function (x, y)
-        /*
-          Given the point (x, y), returns the associated z-coordinate based on the provided surface equation, of the form z = f(x, y).
-        */ {
-        var d = Math.sqrt(x * x + y * y); // The distance d of the xy-point from the z-axis.
-
-        return 4 * (Math.sin(d) / d); // Return the z-coordinate for the point (x, y, z). 
+    Surface.prototype.equation = function (x, y) {
+        var d = Math.sqrt(x * x + y * y);
+        return 4 * (Math.sin(d) / d);
     }
+
+
+    Surface.prototype.multi = function (R) {
+        var Px = 0, Py = 0, Pz = 0;
+        var P = this.points;
+        var sum;
+
+        for (var V = 0; V < P.length; V++) {
+            Px = P[V][X], Py = P[V][Y], Pz = P[V][Z];
+            for (var Rrow = 0; Rrow < 3; Rrow++) {
+                sum = (R[Rrow][X] * Px) + (R[Rrow][Y] * Py) + (R[Rrow][Z] * Pz);
+                P[V][Rrow] = sum;
+            }
+        }
+    }
+
+    Surface.prototype.xRotate = function (sign) {
+        var Rx = [[0, 0, 0],
+                   [0, 0, 0],
+                   [0, 0, 0]]; // Create an initialized 3 x 3 rotation matrix.
+
+        Rx[0][0] = 1;
+        Rx[0][1] = 0; // Redundant but helps with clarity.
+        Rx[0][2] = 0;
+        Rx[1][0] = 0;
+        Rx[1][1] = Math.cos(sign * constants.dTheta);
+        Rx[1][2] = -Math.sin(sign * constants.dTheta);
+        Rx[2][0] = 0;
+        Rx[2][1] = Math.sin(sign * constants.dTheta);
+        Rx[2][2] = Math.cos(sign * constants.dTheta);
+
+        this.multi(Rx); // If P is the set of surface points, then this method performs the matrix multiplcation: Rx * P
+        this.erase(); // Note that one could use two canvases to speed things up, which also eliminates the need to erase.
+        this.draw();
+    }
+
+    Surface.prototype.erase = function () {
+        var ctx = canvas.getContext("2d");
+
+        ctx.clearRect(-constants.canvasWidth / 2, -constants.canvasHeight / 2, canvas.width, canvas.height);
+    }
+
 
 })();
