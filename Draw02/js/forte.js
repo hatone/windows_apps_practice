@@ -10,15 +10,16 @@ var constants = {
 
 
 function Surface() {
-    this.basePoints = [];
-    this.headPoints = [];
     this.canvas = null;
     this.context = null;
+    this.basePoints = [];
+    this.headPoints = [];
+    this.altitude = 0;
 }
 
+
 Surface.prototype.draw = function () {
-    //this.points = this.points.sort(this.sortByZIndex);
-    
+    this.context.lineWidth = 10;
     this.context.beginPath();
     this.context.moveTo(this.basePoints[0][X], this.basePoints[0][Y]);
     for (var i = 0; i < this.basePoints.length; i++) {
@@ -39,7 +40,7 @@ Surface.prototype.draw = function () {
     this.context.closePath();
     this.context.stroke();
 
-    this.context.lineWidth = 2;
+    this.context.lineWidth = 5;
     for (var i = 0; i < this.basePoints.length; i++) {
         this.context.beginPath();
         this.context.moveTo(this.basePoints[i][X], this.basePoints[i][Y]);
@@ -48,31 +49,23 @@ Surface.prototype.draw = function () {
         this.context.stroke();
     }
 
-    console.log("called beber" + this.basePoints.length);
 }
 
 
 Surface.prototype.multi = function (R) {
-    var Px = 0, Py = 0, Pz = 0;
-    var P = this.basePoints;
-    var sum;
+    multiPoints(R, this.basePoints);
+    multiPoints(R, this.headPoints);
 
-    for (var V = 0; V < P.length; V++) {
-        Px = P[V][X], Py = P[V][Y], Pz = P[V][Z];
-        for (var Rrow = 0; Rrow < 3; Rrow++) {
-            sum = (R[Rrow][X] * Px) + (R[Rrow][Y] * Py) + (R[Rrow][Z] * Pz);
-            P[V][Rrow] = sum;
-        }
-    }
+    function multiPoints(R, P) {
+        var Px = 0, Py = 0, Pz = 0;
+        var sum;
 
-    var P = this.headPoints;
-    var sum;
-
-    for (var V = 0; V < P.length; V++) {
-        Px = P[V][X], Py = P[V][Y], Pz = P[V][Z];
-        for (var Rrow = 0; Rrow < 3; Rrow++) {
-            sum = (R[Rrow][X] * Px) + (R[Rrow][Y] * Py) + (R[Rrow][Z] * Pz);
-            P[V][Rrow] = sum;
+        for (var V = 0; V < P.length; V++) {
+            Px = P[V][X], Py = P[V][Y], Pz = P[V][Z];
+            for (var Rrow = 0; Rrow < 3; Rrow++) {
+                sum = (R[Rrow][X] * Px) + (R[Rrow][Y] * Py) + (R[Rrow][Z] * Pz);
+                P[V][Rrow] = sum;
+            }
         }
     }
 }
@@ -80,10 +73,10 @@ Surface.prototype.multi = function (R) {
 Surface.prototype.xRotate = function (sign) {
     var Rx = [[0, 0, 0],
                [0, 0, 0],
-               [0, 0, 0]]; // Create an initialized 3 x 3 rotation matrix.
+               [0, 0, 0]];
 
     Rx[0][0] = 1;
-    Rx[0][1] = 0; // Redundant but helps with clarity.
+    Rx[0][1] = 0; 
     Rx[0][2] = 0;
     Rx[1][0] = 0;
     Rx[1][1] = Math.cos(sign * constants.dTheta);
@@ -92,7 +85,16 @@ Surface.prototype.xRotate = function (sign) {
     Rx[2][1] = Math.sin(sign * constants.dTheta);
     Rx[2][2] = Math.cos(sign * constants.dTheta);
 
-    this.multi(Rx); // If P is the set of surface points, then this method performs the matrix multiplcation: Rx * P
-    this.context.clearRect(-2000 / 2, -800 / 2, 2000, 800);
+    this.generateHeadPoints();
+    this.multi(Rx);
+    this.context.clearRect(-(this.canvas.width / 2), -(this.canvas.height / 2), this.canvas.width, this.canvas.height);
     this.draw();
+}
+
+Surface.prototype.generateHeadPoints = function () {
+    this.headPoints = [];
+    for (var i = 0; i < this.basePoints.length; i++) {
+        this.headPoints.push([this.basePoints[i][0], this.basePoints[i][1], this.altitude]);
+        console.log(this.altitude);
+    }
 }
