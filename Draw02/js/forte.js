@@ -13,6 +13,7 @@ function Surface() {
     this.canvas = null;
     this.context = null;
     this.basePoints = [];
+    this.basePointsStorage = [];
     this.headPoints = [];
     this.altitude = 0;
 }
@@ -24,7 +25,7 @@ Surface.prototype.draw = function () {
     this.context.moveTo(this.basePoints[0][X], this.basePoints[0][Y]);
     for (var i = 0; i < this.basePoints.length; i++) {
         if (i < this.basePoints.length - 1) {
-            this.context.lineTo(this.basePoints[i+1][X], this.basePoints[i+1][Y]);
+            this.context.lineTo(this.basePoints[i + 1][X], this.basePoints[i + 1][Y]);
         }
     }
     this.context.closePath();
@@ -41,7 +42,7 @@ Surface.prototype.draw = function () {
     this.context.stroke();
 
     this.context.lineWidth = 5;
-    for (var i = 0; i < this.basePoints.length; i++) {
+    for (var i = 0; i < this.basePoints.length; i=i+1) {
         this.context.beginPath();
         this.context.moveTo(this.basePoints[i][X], this.basePoints[i][Y]);
         this.context.lineTo(this.headPoints[i][X], this.headPoints[i][Y]);
@@ -52,31 +53,27 @@ Surface.prototype.draw = function () {
 }
 
 
-Surface.prototype.multi = function (R) {
-    multiPoints(R, this.basePoints);
-    multiPoints(R, this.headPoints);
+Surface.prototype.multi = function (R, P) {
+    var Px = 0, Py = 0, Pz = 0;
+    var sum;
 
-    function multiPoints(R, P) {
-        var Px = 0, Py = 0, Pz = 0;
-        var sum;
-
-        for (var V = 0; V < P.length; V++) {
-            Px = P[V][X], Py = P[V][Y], Pz = P[V][Z];
-            for (var Rrow = 0; Rrow < 3; Rrow++) {
-                sum = (R[Rrow][X] * Px) + (R[Rrow][Y] * Py) + (R[Rrow][Z] * Pz);
-                P[V][Rrow] = sum;
-            }
+    for (var V = 0; V < P.length; V++) {
+        Px = P[V][X], Py = P[V][Y], Pz = P[V][Z];
+        for (var Rrow = 0; Rrow < 3; Rrow++) {
+            sum = (R[Rrow][X] * Px) + (R[Rrow][Y] * Py) + (R[Rrow][Z] * Pz);
+            P[V][Rrow] = sum;
         }
+
     }
 }
 
-Surface.prototype.xRotate = function (sign) {
+Surface.prototype.xRotate = function (sign, points) {
     var Rx = [[0, 0, 0],
                [0, 0, 0],
                [0, 0, 0]];
 
     Rx[0][0] = 1;
-    Rx[0][1] = 0; 
+    Rx[0][1] = 0;
     Rx[0][2] = 0;
     Rx[1][0] = 0;
     Rx[1][1] = Math.cos(sign * constants.dTheta);
@@ -85,16 +82,14 @@ Surface.prototype.xRotate = function (sign) {
     Rx[2][1] = Math.sin(sign * constants.dTheta);
     Rx[2][2] = Math.cos(sign * constants.dTheta);
 
-    this.generateHeadPoints();
-    this.multi(Rx);
-    this.context.clearRect(-(this.canvas.width / 2), -(this.canvas.height / 2), this.canvas.width, this.canvas.height);
-    this.draw();
+    this.multi(Rx, points);
 }
 
 Surface.prototype.generateHeadPoints = function () {
     this.headPoints = [];
+
     for (var i = 0; i < this.basePoints.length; i++) {
         this.headPoints.push([this.basePoints[i][0], this.basePoints[i][1], this.altitude]);
-        console.log(this.altitude);
     }
+    console.log(this.altitude);
 }

@@ -3,6 +3,7 @@
 
     var MARGIN_WIDTH;
     var MARGIN_HEIGHT;
+    var ROTATE_MAX = 15;
 
     var canvasObject = {
         canvas: null,
@@ -24,7 +25,7 @@
     };
 
     var surface = new Surface();
-
+    var rotateTime = 0;
     var home = WinJS.UI.Pages.define("/pages/home/home.html", {
 
         ready: function (element, options) {
@@ -36,9 +37,6 @@
 
             var clearButton = document.getElementById("clear");
             clearButton.addEventListener("click", home.prototype.clearButtonClickHandler, false);
-
-            var rotateButton = document.getElementById("rotate");
-            rotateButton.addEventListener("click", home.prototype.rotateButtonClickHandler, false);
         },
 
         clearButtonClickHandler: function (e) {
@@ -50,10 +48,6 @@
             canvasObject.mouseUpPoint.x = canvasObject.mouseUpPoint.y = 0;
 
             canvasObject.context.clearRect(-MARGIN_WIDTH, -MARGIN_HEIGHT, canvasObject.canvas.width, canvasObject.canvas.height);
-        },
-
-        rotateButtonClickHandler: function (e) {
-            surface.xRotate(-1);
         },
 
         startTouch: function (e) {
@@ -103,7 +97,7 @@
         canvasObject.context.translate(canvasObject.canvas.width / 2, canvasObject.canvas.height / 2);
 
         canvasObject.context.strokeStyle = "rgba(0,0,0,1)";
-        canvasObject.context.lineWidth = 10;
+        canvasObject.context.lineWidth = 5;
 
         surface.canvas = canvasObject.canvas;
         surface.context = canvasObject.context;
@@ -127,8 +121,28 @@
     }
 
     function beber(e, drawObject) {
-        var beberVolume = ((drawObject.mouseDownPoint.y - e.clientY) / canvasObject.canvas.height) * 1000;
-        surface.altitude = beberVolume;
+        var beberVolume = ((drawObject.mouseDownPoint.y - e.clientY) / canvasObject.canvas.height) * 10000;
+        surface.altitude--;
+
+        rotateTime++;
+
+        if (rotateTime < ROTATE_MAX) {
+            surface.generateHeadPoints();
+            surface.xRotate(-1, surface.headPoints);
+            surface.xRotate(-1, surface.basePoints);
+        } else {
+            if (beberVolume > 0) {
+                surface.altitude -=10;
+            } else {
+                surface.altitude +=10;
+            }
+
+            surface.generateHeadPoints();
+            surface.xRotate(-1, surface.headPoints);
+        }
+
+        canvasObject.context.clearRect(-MARGIN_WIDTH, -MARGIN_HEIGHT, canvasObject.canvas.width, canvasObject.canvas.height);
+        surface.draw();
     }
 }
 )();
