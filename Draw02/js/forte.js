@@ -9,7 +9,7 @@ var constants = {
 };
 
 
-function Surface() {
+function Forte3D() {
     this.canvas = null;
     this.context = null;
     this.basePoints = [];
@@ -18,8 +18,7 @@ function Surface() {
     this.altitude = 0;
 }
 
-
-Surface.prototype.draw = function () {
+Forte3D.prototype.draw = function () {
     this.context.lineWidth = 10;
     this.context.beginPath();
     this.context.moveTo(this.basePoints[0][X], this.basePoints[0][Y]);
@@ -41,8 +40,8 @@ Surface.prototype.draw = function () {
     this.context.closePath();
     this.context.stroke();
 
-    this.context.lineWidth = 5;
-    for (var i = 0; i < this.basePoints.length; i=i+1) {
+    this.context.lineWidth = 2;
+    for (var i = 0; i < this.basePoints.length; i = i + 1) {
         this.context.beginPath();
         this.context.moveTo(this.basePoints[i][X], this.basePoints[i][Y]);
         this.context.lineTo(this.headPoints[i][X], this.headPoints[i][Y]);
@@ -52,8 +51,7 @@ Surface.prototype.draw = function () {
 
 }
 
-
-Surface.prototype.multi = function (R, P) {
+Forte3D.prototype.multi = function (R, P) {
     var Px = 0, Py = 0, Pz = 0;
     var sum;
 
@@ -67,7 +65,7 @@ Surface.prototype.multi = function (R, P) {
     }
 }
 
-Surface.prototype.xRotate = function (sign, points) {
+Forte3D.prototype.xRotate = function (sign, points) {
     var Rx = [[0, 0, 0],
                [0, 0, 0],
                [0, 0, 0]];
@@ -85,11 +83,10 @@ Surface.prototype.xRotate = function (sign, points) {
     this.multi(Rx, points);
 }
 
-Surface.prototype.generateHeadPoints = function () {
+Forte3D.prototype.generateHeadPoints = function () {
     this.headPoints = [];
 
     for (var i = 0; i < this.basePoints.length; i++) {
         this.headPoints.push([this.basePoints[i][0], this.basePoints[i][1], this.altitude]);
     }
-    console.log(this.altitude);
 }

@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <title>homePage</title>
+    <title>FooDraw</title>
 
     <!-- WinJS references -->
     <link href="//Microsoft.WinJS.2.0/css/ui-dark.css" rel="stylesheet" />
@@ -17,17 +17,14 @@
 <body>
     <!-- The content that will be loaded and displayed. -->
     <div class="fragment homepage">
-        <header aria-label="Header content" role="banner">
-            <button data-win-control="WinJS.UI.BackButton"></button>
-            <h1 class="titlearea win-type-ellipsis">
-                <span class="pagetitle">Dining Board</span>
-            </h1>
-        </header>
         <section aria-label="Main content" role="main">
-            <p>debug</p>
-            <canvas id ="mycanvas" width="2000" height="800"></canvas>
-            <button id="clear">clear</button>
-</section>
+            <div id="canvas_box">
+                <canvas id="mycanvas" width="1900" height="1050"></canvas>
+                <button id="clear">Reset</button>
+                <button id="calc">Calculate your carorie</button>
+                <div id="calorie_field"></div>
+            </div>
+        </section>
     </div>
 </body>
 </html>

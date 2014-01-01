@@ -63,6 +63,9 @@
     <Content Include="js\default.js" />
     <Content Include="js\forte.js" />
     <Content Include="js\navigator.js" />
+    <Content Include="pages\cal\cal.css" />
+    <Content Include="pages\cal\cal.html" />
+    <Content Include="pages\cal\cal.js" />
     <Content Include="pages\home\home.css" />
     <Content Include="pages\home\home.html" />
     <Content Include="pages\home\home.js" />

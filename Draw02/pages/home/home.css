@@ -1,5 +1,40 @@
 ﻿.homepage section[role=main] {
     margin-left: 0px;
     margin-right: 120px;
-    background-color: #cbe495;
+    color: #494949;
+    background-color:antiquewhite;
+}
+
+#canvas_box {
+    margin: 10px;
+    width: 1900px;
+    float: left;
+    position: relative;
+}
+
+#clear {
+    position:absolute;
+    right:10px; 
+    top:10px;
+}
+
+#calc {
+    position:absolute;
+    right:10px; 
+    bottom:10px;
+}
+
+#mycanvas {
+    border:1px solid #000000;
+}
+
+#calorie_field {
+    background-color: #494949;
+    font-family: Impact;
+    position:absolute;
+    right: 10px;
+    bottom: 10px; 
+
+    font-size: 160px;
+    color: #b22222;
 }
