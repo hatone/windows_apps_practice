@@ -1,0 +1,77 @@
+﻿[
+{
+"name": "Shoulder steak, grilled",
+"group": {
+	"key": "Meats", 
+	"title": "Meats", 
+	"backgroundImage": ""
+},
+"image": "images/foods/shoulder_steak.jpg",
+"color": { 
+	"red":"115",
+	"green":"85",
+	"blue":"75"
+},
+"coefficient":"3.64"
+},
+{
+"name": "pizza, regular crust",
+"group": {
+	"key": "Pizza", 
+	"title": "Pizza", 
+	"backgroundImage": ""
+},
+"image": "images/foods/pizza_regular.jpg",
+"color": { 
+	"red":"247",
+	"green":"221",
+	"blue":"170"
+},
+"coefficient":"2.28"
+},
+{
+"name": "Bread",
+"group": {
+	"key": "Breads", 
+	"title": "Breads",  
+	"backgroundImage": ""
+},
+"image": "images/foods/shoulder_steak.jpg",
+"color": { 
+	"red":"115",
+	"green":"85",
+	"blue":"75"
+},
+"coefficient":"0.6416"
+},
+{
+"name": "Bagel",
+"group": {
+	"key": "Breads", 
+	"title": "Breads",  
+	"backgroundImage": ""
+},
+"image": "images/foods/shoulder_steak.jpg",
+"color": { 
+	"red":"115",
+	"green":"85",
+	"blue":"75"
+},
+"coefficient":"1.194"
+},
+{
+"name": "Pork chop, boneless, broiled",
+"group": {
+	"key": "Meats", 
+	"title": "Meats", 
+	"backgroundImage": ""
+},
+"image": "images/foods/shoulder_steak.jpg",
+"color": { 
+	"red":"115",
+	"green":"85",
+	"blue":"75"
+},
+"coefficient":"3.838"
+}
+]

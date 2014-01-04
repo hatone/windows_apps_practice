@@ -1,0 +1,50 @@
+﻿.homepage section[role=main] {
+    margin-left: 0px;
+    margin-right: 120px;
+    background-image: url("/images/board.png");
+    background-repeat: no-repeat;
+    background-size: 1920px 920px;
+}
+
+    .fragment header[role=banner] {
+        font-family: Impact;
+    }
+
+#canvas_box {
+    margin: 10px;
+    width: 1900px;
+    float: left;
+    position: relative;
+}
+
+#clear {
+    position:absolute;
+    right:30px; 
+    top:0px;
+    font-size: 50px;
+    color: #494949;
+}
+
+#calc {
+    position:absolute;
+    right:30px; 
+    bottom:25px;
+    font-family: Impact;
+    font-size: 30px;
+
+}
+
+#mycanvas {
+
+}
+
+#calorie_field {
+    background-color: #494949;
+    font-family: Impact;
+    position:absolute;
+    right:30px; 
+    bottom:25px;
+
+    font-size: 160px;
+    color:antiquewhite;
+}
